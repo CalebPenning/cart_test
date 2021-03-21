@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout</title>
+</head>
+<body>
+<header>
+    {% with msgs = get_flashed_messages() %}
+        {% if msgs %}
+            {% for msg in msgs %}
+            {{msg}}
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+</header>
+
+    <form action="/checkout/{{cart.id}}" method="POST">
+        <ul>
+        {% for item in items %}
+        <li>{{item.item.name}}: {{item.quantity}} - ${{item.item.price * item.quantity}}</li>
+        {% endfor %}
+        </ul>
+        <p><b>GRAND TOTAL: ${{price}}</b></p>
+        <button>Checkout for real</button>
+    </form>
+</body>
+</html>

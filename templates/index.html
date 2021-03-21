@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+<header>
+{% with msgs = get_flashed_messages() %}
+{% if msgs %}
+    {% for msg in msgs %}
+    {{msg}}
+    {% endfor %}
+{% endif %}
+{% endwith %}
+</header>
+    <nav>
+    {% if 'user_id' not in session %}
+    <a href="/signup">Signup</a>
+    <a href="/login">Login</a>
+    {% else %}
+    <a href="/logout">Logout</a>
+    {% endif %}
+    </nav>
+    {% for item in items %}
+    <form action="/items/{{item.id}}/{{order.id}}/add" method="POST">
+    <h3>{{item.name}}</h3>
+    <input type="number" name="quantity" id="quantity">
+    <button type="submit">Add To Cart</button>
+    </form>
+    {% endfor %}
+
+    <div class="cart">
+    <ul>
+    {% for item in order.items %}
+    <li>{{item.item.name}} - {{item.quantity}} - $ {{item.item.price * item.quantity}}</li>
+    {% endfor %}
+    </ul>
+    <a href="/checkout/{{order.id}}"><button>Checkout</button></a>
+    </div>
+</body>
+</html>
